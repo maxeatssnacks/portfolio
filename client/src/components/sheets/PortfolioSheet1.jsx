@@ -44,10 +44,21 @@ const PortfolioSheet1 = () => {
     const fetchPortfolio = async () => {
       try {
         const response = await fetch('/api/portfolio')
-        const data = await response.json()
-        setPortfolio(data)
+        if (response.ok) {
+          const contentType = response.headers.get('content-type')
+          if (contentType && contentType.includes('application/json')) {
+            const data = await response.json()
+            setPortfolio(data)
+          } else {
+            console.log('Server not running, using default portfolio data')
+            throw new Error('Server returned HTML instead of JSON')
+          }
+        } else {
+          console.log('API not available, using default portfolio data')
+          throw new Error('API not available')
+        }
       } catch (error) {
-        console.error('Error fetching portfolio:', error)
+        console.log('Using default portfolio data:', error.message)
         // Fallback data for Capswan Strategizer
         setPortfolio([
           {
@@ -128,15 +139,15 @@ const PortfolioSheet1 = () => {
               </p>
             </div>
 
-            {/* Key Features and Technologies Side by Side */}
-            <div style={{ display: 'flex', gap: '15px', marginBottom: '15px' }}>
+            {/* Key Features and Technologies - stack on mobile */}
+            <div style={{ display: 'flex', gap: '15px', marginBottom: '15px', flexWrap: 'wrap' }}>
               {/* Key Features Section */}
               <div style={{
                 backgroundColor: '#f9f9f9',
                 border: '1px solid #d0d0d0',
                 borderRadius: '3px',
                 padding: '15px',
-                flex: '1'
+                flex: '1 1 320px'
               }}>
                 <h3 style={{
                   margin: '0 0 10px 0',
@@ -180,7 +191,7 @@ const PortfolioSheet1 = () => {
                 border: '1px solid #d0d0d0',
                 borderRadius: '3px',
                 padding: '15px',
-                flex: '1'
+                flex: '1 1 320px'
               }}>
                 <h3 style={{
                   margin: '0 0 10px 0',

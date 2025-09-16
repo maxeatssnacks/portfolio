@@ -21,6 +21,8 @@ const ResumeSheet = () => {
   const [isLoading, setIsLoading] = useState(true)
   const skillsChartRef = useRef(null)
   const skillsChartInstance = useRef(null)
+  const mobileSkillsChartRef = useRef(null)
+  const mobileSkillsChartInstance = useRef(null)
 
   useEffect(() => {
     const fetchResumeData = async () => {
@@ -47,16 +49,16 @@ const ResumeSheet = () => {
     fetchResumeData()
   }, [])
 
-  useEffect(() => {
-    if (skillsChartRef.current) {
-      if (skillsChartInstance.current) {
-        skillsChartInstance.current.destroy()
-        skillsChartInstance.current = null
+  const createChart = (canvasRef, chartInstanceRef) => {
+    if (canvasRef.current) {
+      if (chartInstanceRef.current) {
+        chartInstanceRef.current.destroy()
+        chartInstanceRef.current = null
       }
 
-      const ctx = skillsChartRef.current.getContext('2d')
+      const ctx = canvasRef.current.getContext('2d')
 
-      skillsChartInstance.current = new ChartJS(ctx, {
+      chartInstanceRef.current = new ChartJS(ctx, {
         type: 'radar',
         data: {
           labels: [
@@ -134,11 +136,23 @@ const ResumeSheet = () => {
         }
       })
     }
+  }
+
+  useEffect(() => {
+    // Create desktop chart
+    createChart(skillsChartRef, skillsChartInstance)
+
+    // Create mobile chart
+    createChart(mobileSkillsChartRef, mobileSkillsChartInstance)
 
     return () => {
       if (skillsChartInstance.current) {
         skillsChartInstance.current.destroy()
         skillsChartInstance.current = null
+      }
+      if (mobileSkillsChartInstance.current) {
+        mobileSkillsChartInstance.current.destroy()
+        mobileSkillsChartInstance.current = null
       }
     }
   }, [isLoading]) // Re-render chart when loading state changes
@@ -166,81 +180,568 @@ const ResumeSheet = () => {
       backgroundColor: 'transparent',
       paddingBottom: '40px'
     }}>
-      {/* Professional Experience Table - Full Width at Top */}
-      <div style={{
-        backgroundColor: 'white',
-        border: '1px solid #a6a6a6',
-        overflow: 'hidden',
-        boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
-        marginBottom: '15px'
-      }}>
+      {/* Desktop View */}
+      <div className="desktop-table-view">
+        {/* Professional Experience Table - Full Width at Top */}
         <div style={{
-          background: 'linear-gradient(180deg, #f0f0f0 0%, #e0e0e0 100%)',
-          borderBottom: '1px solid #a6a6a6',
-          padding: '10px 20px',
-          fontWeight: 'bold',
-          fontSize: '14px',
-          color: '#333'
+          backgroundColor: 'white',
+          border: '1px solid #a6a6a6',
+          overflow: 'hidden',
+          boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
+          marginBottom: '15px'
         }}>
-          Professional Experience
+          <div style={{
+            background: 'linear-gradient(180deg, #f0f0f0 0%, #e0e0e0 100%)',
+            borderBottom: '1px solid #a6a6a6',
+            padding: '10px 20px',
+            fontWeight: 'bold',
+            fontSize: '14px',
+            color: '#333'
+          }}>
+            Professional Experience
+          </div>
+          <table style={{
+            width: '100%',
+            borderCollapse: 'collapse',
+            fontSize: '11px',
+            fontFamily: 'Calibri, Arial, sans-serif'
+          }}>
+            <thead>
+              <tr>
+                <th style={{ border: '1px solid #a6a6a6', padding: '6px 8px', textAlign: 'left', fontWeight: 'bold', width: '15%' }}>Company</th>
+                <th style={{ border: '1px solid #a6a6a6', padding: '6px 8px', textAlign: 'left', fontWeight: 'bold', width: '20%' }}>Position</th>
+                <th style={{ border: '1px solid #a6a6a6', padding: '6px 8px', textAlign: 'left', fontWeight: 'bold', width: '15%' }}>Duration</th>
+                <th style={{ border: '1px solid #a6a6a6', padding: '6px 8px', textAlign: 'left', fontWeight: 'bold', width: '50%' }}>Achievement</th>
+              </tr>
+            </thead>
+            <tbody>
+              {/* Capswan - Product Manager */}
+              <tr>
+                <td style={{
+                  backgroundColor: '#f6f8fa',
+                  fontWeight: 'bold',
+                  borderLeft: '3px solid #4472c4',
+                  border: '1px solid #d0d0d0',
+                  borderRight: '1px solid #808080',
+                  borderBottom: '1px solid #808080',
+                  padding: '3px 8px',
+                  verticalAlign: 'top'
+                }}>Capswan</td>
+                <td style={{
+                  backgroundColor: '#f9f9f9',
+                  fontWeight: '600',
+                  border: '1px solid #d0d0d0',
+                  borderRight: '1px solid #808080',
+                  borderBottom: '1px solid #808080',
+                  padding: '3px 8px',
+                  verticalAlign: 'top'
+                }}>Product Manager</td>
+                <td style={{
+                  backgroundColor: '#f9f9f9',
+                  fontWeight: '500',
+                  color: '#666',
+                  fontStyle: 'italic',
+                  whiteSpace: 'nowrap',
+                  border: '1px solid #d0d0d0',
+                  borderRight: '1px solid #808080',
+                  borderBottom: '1px solid #808080',
+                  padding: '3px 8px',
+                  verticalAlign: 'top'
+                }}>June 2023 - Present</td>
+                <td style={{
+                  lineHeight: '1.3',
+                  width: '600px',
+                  border: '1px solid #d0d0d0',
+                  borderRight: '1px solid #808080',
+                  borderBottom: '1px solid #808080',
+                  padding: '3px 8px',
+                  verticalAlign: 'top',
+                  backgroundColor: 'white'
+                }}>
+                  <div style={{
+                    marginBottom: '6px',
+                    paddingLeft: '15px',
+                    position: 'relative'
+                  }}>
+                    <span style={{
+                      position: 'absolute',
+                      left: '0',
+                      color: '#4472c4',
+                      fontWeight: 'bold'
+                    }}>•</span>
+                    Developed collaborative trading feature using Agile/Scrum methodologies, delivering automated trade execution capabilities based on group signals through custom workflow automations
+                  </div>
+                  <div style={{
+                    marginBottom: '6px',
+                    paddingLeft: '15px',
+                    position: 'relative'
+                  }}>
+                    <span style={{
+                      position: 'absolute',
+                      left: '0',
+                      color: '#4472c4',
+                      fontWeight: 'bold'
+                    }}>•</span>
+                    Led the creation of the product roadmap, prioritizing features based on market research and user feedback, resulting in a successful product launch
+                  </div>
+                  <div style={{
+                    marginBottom: '6px',
+                    paddingLeft: '15px',
+                    position: 'relative'
+                  }}>
+                    <span style={{
+                      position: 'absolute',
+                      left: '0',
+                      color: '#4472c4',
+                      fontWeight: 'bold'
+                    }}>•</span>
+                    Implemented comprehensive testing infrastructure using Playwright and Claude, reducing <span style={{
+                      backgroundColor: '#fff2cc',
+                      padding: '1px 4px',
+                      borderRadius: '3px',
+                      fontWeight: '600',
+                      color: '#d73a49'
+                    }}>deployment time by 40%</span> while achieving a <span style={{
+                      backgroundColor: '#fff2cc',
+                      padding: '1px 4px',
+                      borderRadius: '3px',
+                      fontWeight: '600',
+                      color: '#d73a49'
+                    }}>90% test coverage</span>
+                  </div>
+                </td>
+              </tr>
+
+              {/* National Assemblers - Operations & Business Development Manager */}
+              <tr>
+                <td style={{
+                  backgroundColor: '#f6f8fa',
+                  fontWeight: 'bold',
+                  borderLeft: '3px solid #4472c4',
+                  border: '1px solid #d0d0d0',
+                  borderRight: '1px solid #808080',
+                  borderBottom: '1px solid #808080',
+                  padding: '3px 8px',
+                  verticalAlign: 'top'
+                }}>National Assemblers</td>
+                <td style={{
+                  backgroundColor: '#f9f9f9',
+                  fontWeight: '600',
+                  border: '1px solid #d0d0d0',
+                  borderRight: '1px solid #808080',
+                  borderBottom: '1px solid #808080',
+                  padding: '3px 8px',
+                  verticalAlign: 'top'
+                }}>Operations & Business Development Manager</td>
+                <td style={{
+                  backgroundColor: '#f9f9f9',
+                  fontWeight: '500',
+                  color: '#666',
+                  fontStyle: 'italic',
+                  whiteSpace: 'nowrap',
+                  border: '1px solid #d0d0d0',
+                  borderRight: '1px solid #808080',
+                  borderBottom: '1px solid #808080',
+                  padding: '3px 8px',
+                  verticalAlign: 'top'
+                }}>February 2020 - Present</td>
+                <td style={{
+                  lineHeight: '1.3',
+                  width: '600px',
+                  border: '1px solid #d0d0d0',
+                  borderRight: '1px solid #808080',
+                  borderBottom: '1px solid #808080',
+                  padding: '3px 8px',
+                  verticalAlign: 'top',
+                  backgroundColor: 'white'
+                }}>
+                  <div style={{
+                    marginBottom: '6px',
+                    paddingLeft: '15px',
+                    position: 'relative'
+                  }}>
+                    <span style={{
+                      position: 'absolute',
+                      left: '0',
+                      color: '#4472c4',
+                      fontWeight: 'bold'
+                    }}>•</span>
+                    Built and launched In-Home Services business unit from concept to market, generating <span style={{
+                      backgroundColor: '#fff2cc',
+                      padding: '1px 4px',
+                      borderRadius: '3px',
+                      fontWeight: '600',
+                      color: '#d73a49'
+                    }}>$7M in annual revenue</span> within first year
+                  </div>
+                  <div style={{
+                    marginBottom: '6px',
+                    paddingLeft: '15px',
+                    position: 'relative'
+                  }}>
+                    <span style={{
+                      position: 'absolute',
+                      left: '0',
+                      color: '#4472c4',
+                      fontWeight: 'bold'
+                    }}>•</span>
+                    Accelerated business development by designing automated onboarding process using Airtable, webhooks, and APIs
+                  </div>
+                  <div style={{
+                    marginBottom: '6px',
+                    paddingLeft: '15px',
+                    position: 'relative'
+                  }}>
+                    <span style={{
+                      position: 'absolute',
+                      left: '0',
+                      color: '#4472c4',
+                      fontWeight: 'bold'
+                    }}>•</span>
+                    Optimized operational efficiency by <span style={{
+                      backgroundColor: '#fff2cc',
+                      padding: '1px 4px',
+                      borderRadius: '3px',
+                      fontWeight: '600',
+                      color: '#d73a49'
+                    }}>25%</span> through implementation of Urbantz logistics platform for route optimization and scheduling across dozens of metropolitans and hundreds of drivers
+                  </div>
+                  <div style={{
+                    marginBottom: '6px',
+                    paddingLeft: '15px',
+                    position: 'relative'
+                  }}>
+                    <span style={{
+                      position: 'absolute',
+                      left: '0',
+                      color: '#4472c4',
+                      fontWeight: 'bold'
+                    }}>•</span>
+                    Drove <span style={{
+                      backgroundColor: '#fff2cc',
+                      padding: '1px 4px',
+                      borderRadius: '3px',
+                      fontWeight: '600',
+                      color: '#d73a49'
+                    }}>15% improvement in first-time resolution rates</span> by leading cross-functional teams to implement gamified training programs
+                  </div>
+                </td>
+              </tr>
+
+              {/* National Assemblers - Business Analyst */}
+              <tr>
+                <td style={{
+                  backgroundColor: '#f6f8fa',
+                  fontWeight: 'bold',
+                  borderLeft: '3px solid #4472c4',
+                  border: '1px solid #d0d0d0',
+                  borderRight: '1px solid #808080',
+                  borderBottom: '1px solid #808080',
+                  padding: '3px 8px',
+                  verticalAlign: 'top'
+                }}>National Assemblers</td>
+                <td style={{
+                  backgroundColor: '#f9f9f9',
+                  fontWeight: '600',
+                  border: '1px solid #d0d0d0',
+                  borderRight: '1px solid #808080',
+                  borderBottom: '1px solid #808080',
+                  padding: '3px 8px',
+                  verticalAlign: 'top'
+                }}>Business Analyst</td>
+                <td style={{
+                  backgroundColor: '#f9f9f9',
+                  fontWeight: '500',
+                  color: '#666',
+                  fontStyle: 'italic',
+                  whiteSpace: 'nowrap',
+                  border: '1px solid #d0d0d0',
+                  borderRight: '1px solid #808080',
+                  borderBottom: '1px solid #808080',
+                  padding: '3px 8px',
+                  verticalAlign: 'top'
+                }}>May 2017 - February 2020</td>
+                <td style={{
+                  lineHeight: '1.3',
+                  width: '600px',
+                  border: '1px solid #d0d0d0',
+                  borderRight: '1px solid #808080',
+                  borderBottom: '1px solid #808080',
+                  padding: '3px 8px',
+                  verticalAlign: 'top',
+                  backgroundColor: 'white'
+                }}>
+                  <div style={{
+                    marginBottom: '6px',
+                    paddingLeft: '15px',
+                    position: 'relative'
+                  }}>
+                    <span style={{
+                      position: 'absolute',
+                      left: '0',
+                      color: '#4472c4',
+                      fontWeight: 'bold'
+                    }}>•</span>
+                    Developed data-driven sales prediction models that improved forecast accuracy to <span style={{
+                      backgroundColor: '#fff2cc',
+                      padding: '1px 4px',
+                      borderRadius: '3px',
+                      fontWeight: '600',
+                      color: '#d73a49'
+                    }}>95%</span>, resulting in <span style={{
+                      backgroundColor: '#fff2cc',
+                      padding: '1px 4px',
+                      borderRadius: '3px',
+                      fontWeight: '600',
+                      color: '#d73a49'
+                    }}>15% higher technician utilization rates</span>
+                  </div>
+                  <div style={{
+                    marginBottom: '6px',
+                    paddingLeft: '15px',
+                    position: 'relative'
+                  }}>
+                    <span style={{
+                      position: 'absolute',
+                      left: '0',
+                      color: '#4472c4',
+                      fontWeight: 'bold'
+                    }}>•</span>
+                    Created regional workforce management system that reduced employee turnover by <span style={{
+                      backgroundColor: '#fff2cc',
+                      padding: '1px 4px',
+                      borderRadius: '3px',
+                      fontWeight: '600',
+                      color: '#d73a49'
+                    }}>5%</span>, saving approximately <span style={{
+                      backgroundColor: '#fff2cc',
+                      padding: '1px 4px',
+                      borderRadius: '3px',
+                      fontWeight: '600',
+                      color: '#d73a49'
+                    }}>$100k annually</span> in hiring and training costs
+                  </div>
+                  <div style={{
+                    marginBottom: '6px',
+                    paddingLeft: '15px',
+                    position: 'relative'
+                  }}>
+                    <span style={{
+                      position: 'absolute',
+                      left: '0',
+                      color: '#4472c4',
+                      fontWeight: 'bold'
+                    }}>•</span>
+                    Built KPI dashboards providing real-time visibility into key performance metrics, enabling field teams to make faster, data-driven decisions
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
         </div>
-        <table style={{
-          width: '100%',
-          borderCollapse: 'collapse',
-          fontSize: '11px',
-          fontFamily: 'Calibri, Arial, sans-serif'
-        }}>
-          <thead>
-            <tr>
-              <th style={{ border: '1px solid #a6a6a6', padding: '6px 8px', textAlign: 'left', fontWeight: 'bold', width: '15%' }}>Company</th>
-              <th style={{ border: '1px solid #a6a6a6', padding: '6px 8px', textAlign: 'left', fontWeight: 'bold', width: '20%' }}>Position</th>
-              <th style={{ border: '1px solid #a6a6a6', padding: '6px 8px', textAlign: 'left', fontWeight: 'bold', width: '15%' }}>Duration</th>
-              <th style={{ border: '1px solid #a6a6a6', padding: '6px 8px', textAlign: 'left', fontWeight: 'bold', width: '50%' }}>Achievement</th>
-            </tr>
-          </thead>
-          <tbody>
-            {/* Capswan - Product Manager */}
-            <tr>
-              <td style={{
-                backgroundColor: '#f6f8fa',
+
+        <div style={{ display: 'flex', gap: '15px', alignItems: 'flex-start' }}>
+          {/* Left Column - Education & Download */}
+          <div style={{ flex: '1', display: 'flex', flexDirection: 'column', gap: '15px', justifyContent: 'center' }}>
+            {/* Education & Certifications Table */}
+            <div style={{
+              backgroundColor: 'white',
+              border: '1px solid #a6a6a6',
+              overflow: 'hidden',
+              boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
+            }}>
+              <div style={{
+                background: 'linear-gradient(180deg, #f0f0f0 0%, #e0e0e0 100%)',
+                borderBottom: '1px solid #a6a6a6',
+                padding: '10px 20px',
                 fontWeight: 'bold',
-                borderLeft: '3px solid #4472c4',
-                border: '1px solid #d0d0d0',
-                borderRight: '1px solid #808080',
-                borderBottom: '1px solid #808080',
-                padding: '3px 8px',
-                verticalAlign: 'top'
-              }}>Capswan</td>
-              <td style={{
-                backgroundColor: '#f9f9f9',
-                fontWeight: '600',
-                border: '1px solid #d0d0d0',
-                borderRight: '1px solid #808080',
-                borderBottom: '1px solid #808080',
-                padding: '3px 8px',
-                verticalAlign: 'top'
-              }}>Product Manager</td>
-              <td style={{
-                backgroundColor: '#f9f9f9',
-                fontWeight: '500',
-                color: '#666',
-                fontStyle: 'italic',
-                whiteSpace: 'nowrap',
-                border: '1px solid #d0d0d0',
-                borderRight: '1px solid #808080',
-                borderBottom: '1px solid #808080',
-                padding: '3px 8px',
-                verticalAlign: 'top'
-              }}>June 2023 - Present</td>
-              <td style={{
-                lineHeight: '1.3',
-                width: '600px',
-                border: '1px solid #d0d0d0',
-                borderRight: '1px solid #808080',
-                borderBottom: '1px solid #808080',
-                padding: '3px 8px',
-                verticalAlign: 'top',
-                backgroundColor: 'white'
+                fontSize: '14px',
+                color: '#333'
+              }}>
+                Education & Certifications
+              </div>
+              <table style={{
+                width: '100%',
+                borderCollapse: 'collapse',
+                fontSize: '11px',
+                fontFamily: 'Calibri, Arial, sans-serif'
+              }}>
+                <thead>
+                  <tr>
+                    <th style={{ border: '1px solid #a6a6a6', padding: '6px 8px', textAlign: 'left', fontWeight: 'bold' }}>Institution</th>
+                    <th style={{ border: '1px solid #a6a6a6', padding: '6px 8px', textAlign: 'left', fontWeight: 'bold' }}>Degree/Certification</th>
+                    <th style={{ border: '1px solid #a6a6a6', padding: '6px 8px', textAlign: 'left', fontWeight: 'bold' }}>Year</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td style={{ border: '1px solid #a6a6a6', padding: '6px 8px' }}>Springboard</td>
+                    <td style={{ border: '1px solid #a6a6a6', padding: '6px 8px' }}>
+                      Software Engineering Certificate
+                      <div style={{ marginTop: '3px', fontSize: '10px', color: '#666' }}>
+                        • 700+ hours of hands-on course material, with 1:1 industry expert mentor oversight, and completion of 4 in-depth portfolio projects.<br />
+                        • Completed training and projects involving Javascript, DOM Manipulation, Git, Ajax, jQuery, Python, Flask, SQL, PostgreSQL, Node, Express, React, and Redux.
+                      </div>
+                    </td>
+                    <td style={{ border: '1px solid #a6a6a6', padding: '6px 8px' }}>2023 - 2024</td>
+                  </tr>
+                  <tr style={{ backgroundColor: '#f9f9f9' }}>
+                    <td style={{ border: '1px solid #a6a6a6', padding: '6px 8px' }}>University of Florida</td>
+                    <td style={{ border: '1px solid #a6a6a6', padding: '6px 8px' }}>
+                      Bachelor of Science, Biomedical Engineering
+                      <div style={{ marginTop: '3px', fontSize: '10px', color: '#666' }}>
+                        • Dean's List<br />
+                        • Undergraduate Research (Surfactants)<br />
+                        • RecSports Flag Football Referee<br />
+                        • J.M. Rubin Scholar<br />
+                        • G.R.iP (Customized 3D Printed Prosthetics for Children)
+                      </div>
+                    </td>
+                    <td style={{ border: '1px solid #a6a6a6', padding: '6px 8px' }}>2013 - 2017</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            {/* PDF Download Section */}
+            <div style={{
+              backgroundColor: 'white',
+              border: '1px solid #a6a6a6',
+              overflow: 'hidden',
+              boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
+              padding: '15px',
+              textAlign: 'center'
+            }}>
+              <div style={{
+                background: 'linear-gradient(180deg, #f0f0f0 0%, #e0e0e0 100%)',
+                borderBottom: '1px solid #a6a6a6',
+                padding: '10px 20px',
+                fontWeight: 'bold',
+                fontSize: '14px',
+                color: '#333',
+                marginBottom: '15px',
+                marginTop: '-15px',
+                marginLeft: '-15px',
+                marginRight: '-15px'
+              }}>
+                Download Resume
+              </div>
+              <button
+                onClick={() => window.open('/Robert_Rautenkranz.pdf', '_blank')}
+                style={{
+                  backgroundColor: '#4472c4',
+                  color: 'white',
+                  border: '1px solid #4472c4',
+                  padding: '8px 16px',
+                  fontSize: '12px',
+                  fontWeight: 'bold',
+                  cursor: 'pointer',
+                  borderRadius: '3px',
+                  boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
+                  fontFamily: 'Calibri, Arial, sans-serif'
+                }}
+                onMouseOver={(e) => {
+                  e.target.style.backgroundColor = '#3a5f9e';
+                }}
+                onMouseOut={(e) => {
+                  e.target.style.backgroundColor = '#4472c4';
+                }}
+              >
+                📄 Download PDF Resume
+              </button>
+            </div>
+          </div>
+
+          {/* Right Column - Skills Radar Chart */}
+          <div style={{
+            backgroundColor: 'white',
+            border: '1px solid #a6a6a6',
+            overflow: 'hidden',
+            boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
+            padding: '15px',
+            flex: '1',
+            height: 'fit-content'
+          }}>
+            <div style={{
+              background: 'linear-gradient(180deg, #f0f0f0 0%, #e0e0e0 100%)',
+              borderBottom: '1px solid #a6a6a6',
+              padding: '10px 20px',
+              fontWeight: 'bold',
+              fontSize: '14px',
+              color: '#333',
+              marginBottom: '15px',
+              marginTop: '-15px',
+              marginLeft: '-15px',
+              marginRight: '-15px'
+            }}>
+              Technical Skills
+            </div>
+            <div style={{ height: '280px', position: 'relative' }}>
+              <canvas ref={skillsChartRef} style={{ width: '100%', height: '100%' }} />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Mobile View */}
+      <div className="mobile-card-view" style={{ padding: '15px' }}>
+        {/* Professional Experience Cards */}
+        <div style={{
+          backgroundColor: 'white',
+          border: '1px solid #a6a6a6',
+          overflow: 'hidden',
+          boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
+          marginBottom: '15px'
+        }}>
+          <div style={{
+            background: 'linear-gradient(180deg, #f0f0f0 0%, #e0e0e0 100%)',
+            borderBottom: '1px solid #a6a6a6',
+            padding: '10px 20px',
+            fontWeight: 'bold',
+            fontSize: '14px',
+            color: '#333'
+          }}>
+            Professional Experience
+          </div>
+          <div style={{ padding: '15px' }}>
+            {/* Capswan - Product Manager */}
+            <div style={{
+              backgroundColor: '#f9f9f9',
+              border: '1px solid #d0d0d0',
+              borderRadius: '3px',
+              padding: '15px',
+              marginBottom: '15px',
+              borderLeft: '4px solid #4472c4'
+            }}>
+              <div style={{
+                display: 'flex',
+                flexWrap: 'wrap',
+                gap: '10px',
+                marginBottom: '10px',
+                alignItems: 'baseline'
+              }}>
+                <h3 style={{
+                  margin: '0',
+                  color: '#4472c4',
+                  fontSize: '16px',
+                  fontFamily: 'Calibri, Arial, sans-serif',
+                  fontWeight: 'bold'
+                }}>Capswan</h3>
+                <span style={{
+                  fontSize: '14px',
+                  fontWeight: '600',
+                  color: '#333'
+                }}>Product Manager</span>
+                <span style={{
+                  fontSize: '12px',
+                  color: '#666',
+                  fontStyle: 'italic'
+                }}>June 2023 - Present</span>
+              </div>
+              <div style={{
+                fontSize: '12px',
+                lineHeight: '1.4',
+                fontFamily: 'Calibri, Arial, sans-serif'
               }}>
                 <div style={{
                   marginBottom: '6px',
@@ -293,51 +794,47 @@ const ResumeSheet = () => {
                     color: '#d73a49'
                   }}>90% test coverage</span>
                 </div>
-              </td>
-            </tr>
+              </div>
+            </div>
 
             {/* National Assemblers - Operations & Business Development Manager */}
-            <tr>
-              <td style={{
-                backgroundColor: '#f6f8fa',
-                fontWeight: 'bold',
-                borderLeft: '3px solid #4472c4',
-                border: '1px solid #d0d0d0',
-                borderRight: '1px solid #808080',
-                borderBottom: '1px solid #808080',
-                padding: '3px 8px',
-                verticalAlign: 'top'
-              }}>National Assemblers</td>
-              <td style={{
-                backgroundColor: '#f9f9f9',
-                fontWeight: '600',
-                border: '1px solid #d0d0d0',
-                borderRight: '1px solid #808080',
-                borderBottom: '1px solid #808080',
-                padding: '3px 8px',
-                verticalAlign: 'top'
-              }}>Operations & Business Development Manager</td>
-              <td style={{
-                backgroundColor: '#f9f9f9',
-                fontWeight: '500',
-                color: '#666',
-                fontStyle: 'italic',
-                whiteSpace: 'nowrap',
-                border: '1px solid #d0d0d0',
-                borderRight: '1px solid #808080',
-                borderBottom: '1px solid #808080',
-                padding: '3px 8px',
-                verticalAlign: 'top'
-              }}>February 2020 - Present</td>
-              <td style={{
-                lineHeight: '1.3',
-                width: '600px',
-                border: '1px solid #d0d0d0',
-                borderRight: '1px solid #808080',
-                borderBottom: '1px solid #808080',
-                padding: '3px 8px',
-                verticalAlign: 'top',
-                backgroundColor: 'white'
+            <div style={{
+              backgroundColor: '#f9f9f9',
+              border: '1px solid #d0d0d0',
+              borderRadius: '3px',
+              padding: '15px',
+              marginBottom: '15px',
+              borderLeft: '4px solid #4472c4'
+            }}>
+              <div style={{
+                display: 'flex',
+                flexWrap: 'wrap',
+                gap: '10px',
+                marginBottom: '10px',
+                alignItems: 'baseline'
+              }}>
+                <h3 style={{
+                  margin: '0',
+                  color: '#4472c4',
+                  fontSize: '16px',
+                  fontFamily: 'Calibri, Arial, sans-serif',
+                  fontWeight: 'bold'
+                }}>National Assemblers</h3>
+                <span style={{
+                  fontSize: '14px',
+                  fontWeight: '600',
+                  color: '#333'
+                }}>Operations & Business Development Manager</span>
+                <span style={{
+                  fontSize: '12px',
+                  color: '#666',
+                  fontStyle: 'italic'
+                }}>February 2020 - Present</span>
+              </div>
+              <div style={{
+                fontSize: '12px',
+                lineHeight: '1.4',
+                fontFamily: 'Calibri, Arial, sans-serif'
               }}>
                 <div style={{
                   marginBottom: '6px',
@@ -382,13 +879,7 @@ const ResumeSheet = () => {
                     color: '#4472c4',
                     fontWeight: 'bold'
                   }}>•</span>
-                  Optimized operational efficiency by <span style={{
-                    backgroundColor: '#fff2cc',
-                    padding: '1px 4px',
-                    borderRadius: '3px',
-                    fontWeight: '600',
-                    color: '#d73a49'
-                  }}>25%</span> through implementation of Urbantz logistics platform for route optimization and scheduling across dozens of metropolitans and hundreds of drivers
+                  Optimized operational efficiency by 25% through implementation of Urbantz logistics platform for route optimization and scheduling across dozens of metropolitans and hundreds of drivers
                 </div>
                 <div style={{
                   marginBottom: '6px',
@@ -401,59 +892,49 @@ const ResumeSheet = () => {
                     color: '#4472c4',
                     fontWeight: 'bold'
                   }}>•</span>
-                  Drove <span style={{
-                    backgroundColor: '#fff2cc',
-                    padding: '1px 4px',
-                    borderRadius: '3px',
-                    fontWeight: '600',
-                    color: '#d73a49'
-                  }}>15% improvement in first-time resolution rates</span> by leading cross-functional teams to implement gamified training programs
+                  Drove 15% improvement in first-time resolution rates by leading cross-functional teams to implement gamified performance tracking
                 </div>
-              </td>
-            </tr>
+              </div>
+            </div>
 
             {/* National Assemblers - Business Analyst */}
-            <tr>
-              <td style={{
-                backgroundColor: '#f6f8fa',
-                fontWeight: 'bold',
-                borderLeft: '3px solid #4472c4',
-                border: '1px solid #d0d0d0',
-                borderRight: '1px solid #808080',
-                borderBottom: '1px solid #808080',
-                padding: '3px 8px',
-                verticalAlign: 'top'
-              }}>National Assemblers</td>
-              <td style={{
-                backgroundColor: '#f9f9f9',
-                fontWeight: '600',
-                border: '1px solid #d0d0d0',
-                borderRight: '1px solid #808080',
-                borderBottom: '1px solid #808080',
-                padding: '3px 8px',
-                verticalAlign: 'top'
-              }}>Business Analyst</td>
-              <td style={{
-                backgroundColor: '#f9f9f9',
-                fontWeight: '500',
-                color: '#666',
-                fontStyle: 'italic',
-                whiteSpace: 'nowrap',
-                border: '1px solid #d0d0d0',
-                borderRight: '1px solid #808080',
-                borderBottom: '1px solid #808080',
-                padding: '3px 8px',
-                verticalAlign: 'top'
-              }}>May 2017 - February 2020</td>
-              <td style={{
-                lineHeight: '1.3',
-                width: '600px',
-                border: '1px solid #d0d0d0',
-                borderRight: '1px solid #808080',
-                borderBottom: '1px solid #808080',
-                padding: '3px 8px',
-                verticalAlign: 'top',
-                backgroundColor: 'white'
+            <div style={{
+              backgroundColor: '#f9f9f9',
+              border: '1px solid #d0d0d0',
+              borderRadius: '3px',
+              padding: '15px',
+              marginBottom: '15px',
+              borderLeft: '4px solid #4472c4'
+            }}>
+              <div style={{
+                display: 'flex',
+                flexWrap: 'wrap',
+                gap: '10px',
+                marginBottom: '10px',
+                alignItems: 'baseline'
+              }}>
+                <h3 style={{
+                  margin: '0',
+                  color: '#4472c4',
+                  fontSize: '16px',
+                  fontFamily: 'Calibri, Arial, sans-serif',
+                  fontWeight: 'bold'
+                }}>National Assemblers</h3>
+                <span style={{
+                  fontSize: '14px',
+                  fontWeight: '600',
+                  color: '#333'
+                }}>Business Analyst</span>
+                <span style={{
+                  fontSize: '12px',
+                  color: '#666',
+                  fontStyle: 'italic'
+                }}>May 2017 - February 2020</span>
+              </div>
+              <div style={{
+                fontSize: '12px',
+                lineHeight: '1.4',
+                fontFamily: 'Calibri, Arial, sans-serif'
               }}>
                 <div style={{
                   marginBottom: '6px',
@@ -466,19 +947,7 @@ const ResumeSheet = () => {
                     color: '#4472c4',
                     fontWeight: 'bold'
                   }}>•</span>
-                  Developed data-driven sales prediction models that improved forecast accuracy to <span style={{
-                    backgroundColor: '#fff2cc',
-                    padding: '1px 4px',
-                    borderRadius: '3px',
-                    fontWeight: '600',
-                    color: '#d73a49'
-                  }}>95%</span>, resulting in <span style={{
-                    backgroundColor: '#fff2cc',
-                    padding: '1px 4px',
-                    borderRadius: '3px',
-                    fontWeight: '600',
-                    color: '#d73a49'
-                  }}>15% higher technician utilization rates</span>
+                  Developed data-driven sales prediction models that improved forecast accuracy to 95%, resulting in 15% higher technician utilization rates
                 </div>
                 <div style={{
                   marginBottom: '6px',
@@ -518,98 +987,139 @@ const ResumeSheet = () => {
                   }}>•</span>
                   Built KPI dashboards providing real-time visibility into key performance metrics, enabling field teams to make faster, data-driven decisions
                 </div>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-
-      <div style={{ display: 'flex', gap: '15px', alignItems: 'flex-start' }}>
-        {/* Left Column - Education & Download */}
-        <div style={{ flex: '1', display: 'flex', flexDirection: 'column', gap: '15px', justifyContent: 'center' }}>
-          {/* Education & Certifications Table */}
-          <div style={{
-            backgroundColor: 'white',
-            border: '1px solid #a6a6a6',
-            overflow: 'hidden',
-            boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
-          }}>
-            <div style={{
-              background: 'linear-gradient(180deg, #f0f0f0 0%, #e0e0e0 100%)',
-              borderBottom: '1px solid #a6a6a6',
-              padding: '10px 20px',
-              fontWeight: 'bold',
-              fontSize: '14px',
-              color: '#333'
-            }}>
-              Education & Certifications
+              </div>
             </div>
-            <table style={{
-              width: '100%',
-              borderCollapse: 'collapse',
-              fontSize: '11px',
-              fontFamily: 'Calibri, Arial, sans-serif'
-            }}>
-              <thead>
-                <tr>
-                  <th style={{ border: '1px solid #a6a6a6', padding: '6px 8px', textAlign: 'left', fontWeight: 'bold' }}>Institution</th>
-                  <th style={{ border: '1px solid #a6a6a6', padding: '6px 8px', textAlign: 'left', fontWeight: 'bold' }}>Degree/Certification</th>
-                  <th style={{ border: '1px solid #a6a6a6', padding: '6px 8px', textAlign: 'left', fontWeight: 'bold' }}>Year</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td style={{ border: '1px solid #a6a6a6', padding: '6px 8px' }}>Springboard</td>
-                  <td style={{ border: '1px solid #a6a6a6', padding: '6px 8px' }}>
-                    Software Engineering Certificate
-                    <div style={{ marginTop: '3px', fontSize: '10px', color: '#666' }}>
-                      • 700+ hours of hands-on course material, with 1:1 industry expert mentor oversight, and completion of 4 in-depth portfolio projects.<br />
-                      • Completed training and projects involving Javascript, DOM Manipulation, Git, Ajax, jQuery, Python, Flask, SQL, PostgreSQL, Node, Express, React, and Redux.
-                    </div>
-                  </td>
-                  <td style={{ border: '1px solid #a6a6a6', padding: '6px 8px' }}>2023 - 2024</td>
-                </tr>
-                <tr style={{ backgroundColor: '#f9f9f9' }}>
-                  <td style={{ border: '1px solid #a6a6a6', padding: '6px 8px' }}>University of Florida</td>
-                  <td style={{ border: '1px solid #a6a6a6', padding: '6px 8px' }}>
-                    Bachelor of Science, Biomedical Engineering
-                    <div style={{ marginTop: '3px', fontSize: '10px', color: '#666' }}>
-                      • Dean's List<br />
-                      • Undergraduate Research (Surfactants)<br />
-                      • RecSports Flag Football Referee<br />
-                      • J.M. Rubin Scholar<br />
-                      • G.R.iP (Customized 3D Printed Prosthetics for Children)
-                    </div>
-                  </td>
-                  <td style={{ border: '1px solid #a6a6a6', padding: '6px 8px' }}>2013 - 2017</td>
-                </tr>
-              </tbody>
-            </table>
           </div>
+        </div>
 
-          {/* PDF Download Section */}
+        {/* Education & Certifications */}
+        <div style={{
+          backgroundColor: 'white',
+          border: '1px solid #a6a6a6',
+          overflow: 'hidden',
+          boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
+          marginBottom: '15px'
+        }}>
           <div style={{
-            backgroundColor: 'white',
-            border: '1px solid #a6a6a6',
-            overflow: 'hidden',
-            boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
-            padding: '15px',
+            background: 'linear-gradient(180deg, #f0f0f0 0%, #e0e0e0 100%)',
+            borderBottom: '1px solid #a6a6a6',
+            padding: '10px 20px',
+            fontWeight: 'bold',
+            fontSize: '14px',
+            color: '#333'
+          }}>
+            Education & Certifications
+          </div>
+          <div style={{ padding: '15px' }}>
+            <div style={{
+              backgroundColor: '#f9f9f9',
+              border: '1px solid #d0d0d0',
+              borderRadius: '3px',
+              padding: '15px',
+              marginBottom: '15px'
+            }}>
+              <h3 style={{
+                margin: '0 0 8px 0',
+                color: '#4472c4',
+                fontSize: '16px',
+                fontFamily: 'Calibri, Arial, sans-serif',
+                fontWeight: 'bold'
+              }}>Software Engineering Certificate</h3>
+              <div style={{
+                fontSize: '12px',
+                lineHeight: '1.4',
+                fontFamily: 'Calibri, Arial, sans-serif',
+                color: '#666'
+              }}>
+                Springboard • November 2024 • Online
+              </div>
+            </div>
+            <div style={{
+              backgroundColor: '#f9f9f9',
+              border: '1px solid #d0d0d0',
+              borderRadius: '3px',
+              padding: '15px',
+              marginBottom: '0'
+            }}>
+              <h3 style={{
+                margin: '0 0 8px 0',
+                color: '#4472c4',
+                fontSize: '16px',
+                fontFamily: 'Calibri, Arial, sans-serif',
+                fontWeight: 'bold'
+              }}>Bachelor of Science, Biomedical Engineering</h3>
+              <div style={{
+                fontSize: '12px',
+                lineHeight: '1.4',
+                fontFamily: 'Calibri, Arial, sans-serif',
+                color: '#666',
+                marginBottom: '8px'
+              }}>
+                University of Florida • 2013 - 2017 • Gainesville, Florida
+              </div>
+              <div style={{
+                fontSize: '11px',
+                lineHeight: '1.3',
+                fontFamily: 'Calibri, Arial, sans-serif',
+                color: '#555'
+              }}>
+                Dean's List, Undergraduate Research (Surfactants), RecSports Flag Football Referee, J.M. Rubin Scholar, G.R.iP (Customized 3d Printed Prosthetics for Children)
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Technical Skills */}
+        <div style={{
+          backgroundColor: 'white',
+          border: '1px solid #a6a6a6',
+          overflow: 'hidden',
+          boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
+          marginBottom: '15px'
+        }}>
+          <div style={{
+            background: 'linear-gradient(180deg, #f0f0f0 0%, #e0e0e0 100%)',
+            borderBottom: '1px solid #a6a6a6',
+            padding: '10px 20px',
+            fontWeight: 'bold',
+            fontSize: '14px',
+            color: '#333'
+          }}>
+            Technical Skills
+          </div>
+          <div style={{
+            padding: '20px',
+            height: '300px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center'
+          }}>
+            <canvas ref={mobileSkillsChartRef} style={{ maxWidth: '100%', maxHeight: '100%' }} />
+          </div>
+        </div>
+
+        {/* Download Resume */}
+        <div style={{
+          backgroundColor: 'white',
+          border: '1px solid #a6a6a6',
+          overflow: 'hidden',
+          boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
+          marginBottom: '15px'
+        }}>
+          <div style={{
+            background: 'linear-gradient(180deg, #f0f0f0 0%, #e0e0e0 100%)',
+            borderBottom: '1px solid #a6a6a6',
+            padding: '10px 20px',
+            fontWeight: 'bold',
+            fontSize: '14px',
+            color: '#333'
+          }}>
+            Download Resume
+          </div>
+          <div style={{
+            padding: '20px',
             textAlign: 'center'
           }}>
-            <div style={{
-              background: 'linear-gradient(180deg, #f0f0f0 0%, #e0e0e0 100%)',
-              borderBottom: '1px solid #a6a6a6',
-              padding: '10px 20px',
-              fontWeight: 'bold',
-              fontSize: '14px',
-              color: '#333',
-              marginBottom: '15px',
-              marginTop: '-15px',
-              marginLeft: '-15px',
-              marginRight: '-15px'
-            }}>
-              Download Resume
-            </div>
             <button
               onClick={() => {
                 const link = document.createElement('a');
@@ -623,52 +1133,17 @@ const ResumeSheet = () => {
                 backgroundColor: '#4472c4',
                 color: 'white',
                 border: '1px solid #4472c4',
-                padding: '8px 16px',
-                fontSize: '12px',
+                padding: '12px 24px',
+                fontSize: '14px',
                 fontWeight: 'bold',
                 cursor: 'pointer',
                 borderRadius: '3px',
                 boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
-                fontFamily: 'Calibri, Arial, sans-serif'
-              }}
-              onMouseOver={(e) => {
-                e.target.style.backgroundColor = '#3a5f9e';
-              }}
-              onMouseOut={(e) => {
-                e.target.style.backgroundColor = '#4472c4';
+                minWidth: '120px'
               }}
             >
-              📄 Download PDF Resume
+              Download PDF
             </button>
-          </div>
-        </div>
-
-        {/* Right Column - Skills Radar Chart */}
-        <div style={{
-          backgroundColor: 'white',
-          border: '1px solid #a6a6a6',
-          overflow: 'hidden',
-          boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
-          padding: '15px',
-          flex: '1',
-          height: 'fit-content'
-        }}>
-          <div style={{
-            background: 'linear-gradient(180deg, #f0f0f0 0%, #e0e0e0 100%)',
-            borderBottom: '1px solid #a6a6a6',
-            padding: '10px 20px',
-            fontWeight: 'bold',
-            fontSize: '14px',
-            color: '#333',
-            marginBottom: '15px',
-            marginTop: '-15px',
-            marginLeft: '-15px',
-            marginRight: '-15px'
-          }}>
-            Skills
-          </div>
-          <div style={{ height: '280px', position: 'relative' }}>
-            <canvas ref={skillsChartRef} style={{ width: '100%', height: '100%' }} />
           </div>
         </div>
       </div>

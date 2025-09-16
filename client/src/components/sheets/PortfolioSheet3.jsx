@@ -124,13 +124,13 @@ const PortfolioSheet3 = () => {
                         </div>
 
                         {/* Key Features and Technologies Side by Side */}
-                        <div style={{ display: 'flex', gap: '15px', marginBottom: '15px' }}>
+                        <div style={{ display: 'flex', gap: '15px', marginBottom: '15px', flexWrap: 'wrap' }}>
                             {/* Key Features Section */}
                             <div style={{
                                 backgroundColor: '#f9f9f9',
                                 border: '1px solid #d0d0d0',
                                 borderRadius: '3px',
-                                flex: '1',
+                                flex: '1 1 320px',
                                 padding: '15px'
                             }}>
                                 <h3 style={{
@@ -174,7 +174,7 @@ const PortfolioSheet3 = () => {
                                 backgroundColor: '#f9f9f9',
                                 border: '1px solid #d0d0d0',
                                 borderRadius: '3px',
-                                flex: '1',
+                                flex: '1 1 320px',
                                 padding: '15px'
                             }}>
                                 <h3 style={{
@@ -220,9 +220,9 @@ const PortfolioSheet3 = () => {
                 }}>
                     Website Development Process
                 </h3>
-                <div style={{ display: 'flex', gap: '80px', alignItems: 'center', justifyContent: 'center' }}>
+                <div style={{ display: 'flex', gap: '80px', alignItems: 'center', justifyContent: 'center', flexWrap: 'wrap' }}>
                     {/* Wireframe Image */}
-                    <div style={{ flex: '0 0 auto', textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                    <div style={{ flex: '1 1 300px', textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center', minWidth: '300px' }}>
                         <h4 style={{
                             margin: '0 0 10px 0',
                             color: '#333',
@@ -238,15 +238,18 @@ const PortfolioSheet3 = () => {
                             src="/automation-consultants-wireframe.png"
                             alt="Wireframe Design"
                             style={{
-                                maxWidth: '400px',
+                                maxWidth: '100%',
+                                width: '100%',
                                 height: 'auto',
-                                border: '1px solid #ccc'
+                                border: '1px solid #ccc',
+                                maxHeight: '300px',
+                                objectFit: 'contain'
                             }}
                         />
                     </div>
 
                     {/* Final Website - Carousel */}
-                    <div style={{ flex: '0 0 auto', textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                    <div style={{ flex: '1 1 300px', textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center', minWidth: '300px' }}>
                         <h4 style={{
                             margin: '0 0 10px 0',
                             color: '#333',
@@ -291,8 +294,11 @@ const PortfolioSheet3 = () => {
                             {/* Image Container */}
                             <div style={{
                                 position: 'relative',
-                                maxWidth: '784px',
-                                height: '434px',
+                                maxWidth: '100%',
+                                width: '100%',
+                                height: 'auto',
+                                minHeight: '200px',
+                                maxHeight: '400px',
                                 overflow: 'hidden',
                                 border: '1px solid #ccc',
                                 flex: 1
@@ -303,6 +309,8 @@ const PortfolioSheet3 = () => {
                                     style={{
                                         width: '100%',
                                         height: 'auto',
+                                        maxHeight: '400px',
+                                        objectFit: 'contain',
                                         display: 'block'
                                     }}
                                 />

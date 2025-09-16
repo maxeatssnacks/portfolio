@@ -167,12 +167,13 @@ const MaximumTenzChart = () => {
     }, []);
 
     return (
-        <div style={{
+        <div className="max-tenz" style={{
             position: 'absolute',
             top: '20%',
             left: '50%',
             transform: 'translateX(-50%)',
-            width: '720px',
+            width: 'min(720px, 100%)',
+            padding: '0 10px',
             zIndex: 1000,
             display: 'flex',
             flexDirection: 'column',
@@ -181,7 +182,7 @@ const MaximumTenzChart = () => {
         }}>
             {/* Chart Container */}
             <div style={{
-                width: '720px',
+                width: '100%',
                 height: '288px',
                 backgroundColor: '#f0f0f0',
                 border: '2px solid #d0d0d0',

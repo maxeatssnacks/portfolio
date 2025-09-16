@@ -5,10 +5,20 @@
   box-sizing: border-box;
 }
 
+html {
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+}
+
 body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   overflow: hidden;
   background-color: #f0f0f0;
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  width: 100vw;
 }
 
 /* Excel App Layout */
@@ -28,6 +38,8 @@ body {
   overflow: hidden;
   position: relative;
   background-color: #f0f0f0;
+  width: 100vw;
+  height: 100vh;
 }
 
 /* Spreadsheet Grid */
@@ -39,6 +51,11 @@ body {
   background-color: #f0f0f0;
   border: 2px solid #d0d0d0;
   box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
 }
 
 /* Column Headers */
@@ -68,7 +85,7 @@ body {
 }
 
 .column-header {
-  width: 100px;
+  flex: 1;
   height: 30px;
   display: flex;
   align-items: center;
@@ -123,7 +140,7 @@ body {
 }
 
 .grid-cell {
-  width: 100px;
+  flex: 1;
   height: 25px;
   border-right: 2px solid #d0d0d0;
   border-bottom: 2px solid #d0d0d0;
@@ -198,10 +215,12 @@ body {
 /* Sheet Content Grid */
 .sheet-content-grid {
   display: grid;
-  grid-template-columns: repeat(26, 100px);
-  grid-template-rows: repeat(50, 25px);
+  grid-template-columns: repeat(26, 1fr);
+  grid-template-rows: repeat(50, 1fr);
   gap: 0;
   padding: 10px;
+  width: 100%;
+  height: 100%;
 }
 
 .content-cell {
@@ -501,5 +520,202 @@ body {
 
   .sheet-tab {
     min-width: 80px;
+  }
+
+  /* Make tabs easier to tap and allow horizontal scroll if needed */
+  .sheet-tabs {
+    height: 46px;
+    padding: 0 6px;
+  }
+
+  .tabs-container {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .tab-arrow {
+    width: 26px;
+    height: 26px;
+    font-size: 12px;
+  }
+
+  /* Reduce header/corner sizes to reclaim space */
+  .corner-cell {
+    width: 44px;
+    height: 28px;
+  }
+
+  .row-headers {
+    width: 44px;
+  }
+
+  .row-header {
+    height: 24px;
+  }
+
+  /* Shift content closer to headers on smaller screens */
+  .sheet-content {
+    top: 30px;
+    left: 44px;
+  }
+
+  /* Clippy sizing/position */
+  .clippy-popup {
+    bottom: 60px;
+    right: 24px;
+  }
+
+  .clippy-character {
+    width: 140px;
+    height: 140px;
+  }
+
+  .clippy-speech-bubble {
+    max-width: 180px;
+  }
+}
+
+/* Phone layout */
+@media (max-width: 480px) {
+  .column-header {
+    width: 60px;
+    height: 26px;
+    font-size: 10px;
+  }
+
+  .grid-cell {
+    width: 60px;
+    height: 22px;
+    font-size: 10px;
+  }
+
+  .grid-row {
+    height: 22px;
+  }
+
+  .sheet-content-grid {
+    grid-template-columns: repeat(26, 60px);
+  }
+
+  .corner-cell {
+    width: 40px;
+    height: 26px;
+    font-size: 10px;
+  }
+
+  .row-headers {
+    width: 40px;
+  }
+
+  .row-header {
+    height: 22px;
+    font-size: 10px;
+  }
+
+  .sheet-tabs {
+    height: 48px;
+    padding: 0 6px;
+  }
+
+  .sheet-tab {
+    min-width: 72px;
+    height: 28px;
+    font-size: 10px;
+    padding: 0 6px;
+  }
+
+  .tab-arrow {
+    width: 28px;
+    height: 28px;
+    font-size: 12px;
+  }
+
+  .tabs-container {
+    overflow-x: auto;
+    gap: 2px;
+  }
+
+  /* Bring the content area closer to headers on phones */
+  .sheet-content {
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+  }
+
+  /* Slightly thinner scrollbar on phones */
+  .sheet-content::-webkit-scrollbar {
+    width: 12px;
+    height: 12px;
+  }
+
+  /* Clippy smaller and tucked into corner */
+  .clippy-popup {
+    bottom: 16px;
+    right: 12px;
+  }
+
+  .clippy-character {
+    width: 100px;
+    height: 100px;
+  }
+
+  .clippy-speech-bubble {
+    max-width: 160px;
+    padding: 8px 10px;
+  }
+
+  .clippy-speech-bubble::before {
+    left: -7px;
+    top: 16px;
+  }
+
+  .clippy-speech-bubble::after {
+    left: -5px;
+    top: 18px;
+  }
+
+  /* Keep grid visible on iPhone 12 Pro and similar sizes */
+
+  /* Keep tabs visible as you scroll */
+  .sheet-tabs {
+    position: sticky;
+    bottom: 0;
+    z-index: 1000;
+  }
+}
+
+/* Resume sheet responsive views */
+.desktop-table-view {
+  display: block;
+}
+
+.mobile-card-view {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .desktop-table-view {
+    display: none;
+  }
+
+  .mobile-card-view {
+    display: block;
+  }
+}
+
+/* Hide grid only on very small screens (320px and below) */
+@media (max-width: 320px) {
+
+  .column-headers,
+  .row-headers,
+  .corner-cell,
+  .grid-cells {
+    display: none;
+  }
+
+  .spreadsheet-grid {
+    border: none;
+    box-shadow: none;
   }
 }
