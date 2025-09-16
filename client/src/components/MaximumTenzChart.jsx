@@ -32,7 +32,7 @@ const MaximumTenzChart = () => {
 
     const copyEmailToClipboard = async () => {
         try {
-            await navigator.clipboard.writeText('maxrautenkranz@gmail.com');
+            await navigator.clipboard.writeText('Robert.rautenkranz@gmail.com');
             setShowNotification(true);
             setTimeout(() => setShowNotification(false), 1000); // Hide after 1 second
         } catch (err) {
@@ -256,7 +256,7 @@ const MaximumTenzChart = () => {
                         }}
                         onClick={copyEmailToClipboard}
                     >
-                        maxrautenkranz@gmail.com
+                        Robert.rautenkranz@gmail.com
 
                         {/* Copy Notification - positioned relative to this button */}
                         {showNotification && (
