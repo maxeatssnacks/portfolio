@@ -5,10 +5,10 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build && cp -r public/* dist/",
+    "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "vercel-build": "vite build && cp -r public/* dist/"
+    "vercel-build": "vite build"
   },
   "dependencies": {
     "chart.js": "^4.5.0",
