@@ -611,7 +611,14 @@ const ResumeSheet = () => {
               Download Resume
             </div>
             <button
-              onClick={() => window.open('/Robert_Rautenkranz.pdf', '_blank')}
+              onClick={() => {
+                const link = document.createElement('a');
+                link.href = '/Robert_Rautenkranz.pdf';
+                link.download = 'Robert_Rautenkranz_Resume.pdf';
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+              }}
               style={{
                 backgroundColor: '#4472c4',
                 color: 'white',
