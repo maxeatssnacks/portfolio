@@ -615,6 +615,11 @@ body {
   .sheet-tabs {
     height: 48px;
     padding: 0 6px;
+    position: sticky !important;
+    bottom: 0 !important;
+    z-index: 1000 !important;
+    background: #f0f0f0 !important;
+    border-top: 1px solid #a6a6a6 !important;
   }
 
   .sheet-tab {
@@ -641,7 +646,8 @@ body {
     left: 40px;
     /* Account for row headers */
     right: 0;
-    bottom: 0;
+    bottom: 48px;
+    /* Account for sticky tabs */
     padding: 5px;
   }
 
@@ -649,6 +655,17 @@ body {
   .sheet-content>div {
     padding-left: 10px;
     padding-right: 10px;
+  }
+
+  /* Ensure grid is properly visible on mobile */
+  .spreadsheet-grid {
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
   }
 
   /* Slightly thinner scrollbar on phones */
