@@ -26,7 +26,7 @@ const ResumeSheet = () => {
     const fetchResumeData = async () => {
       try {
         setIsLoading(true)
-        const response = await fetch('http://localhost:3001/api/resume')
+        const response = await fetch('/api/resume')
         if (response.ok) {
           const data = await response.json()
           setResumeData(data)

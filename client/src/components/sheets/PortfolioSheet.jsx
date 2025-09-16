@@ -6,7 +6,7 @@ const PortfolioSheet = () => {
   useEffect(() => {
     const fetchPortfolio = async () => {
       try {
-        const response = await fetch('http://localhost:3001/api/portfolio')
+        const response = await fetch('/api/portfolio')
         const data = await response.json()
         setPortfolio(data)
       } catch (error) {

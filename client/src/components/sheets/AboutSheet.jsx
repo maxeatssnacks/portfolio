@@ -7,7 +7,7 @@ const AboutSheet = () => {
   useEffect(() => {
     const fetchAboutData = async () => {
       try {
-        const response = await fetch('http://localhost:3001/api/about')
+        const response = await fetch('/api/about')
         const data = await response.json()
         setAboutData(data)
       } catch (error) {
