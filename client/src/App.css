@@ -1,0 +1,505 @@
+/* Global Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  overflow: hidden;
+  background-color: #f0f0f0;
+}
+
+/* Excel App Layout */
+.excel-app {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  width: 100vw;
+  background-color: #f0f0f0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  overflow: hidden;
+}
+
+/* Spreadsheet Container */
+.spreadsheet-container {
+  flex: 1;
+  overflow: hidden;
+  position: relative;
+  background-color: #f0f0f0;
+}
+
+/* Spreadsheet Grid */
+.spreadsheet-grid {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  background-color: #f0f0f0;
+  border: 2px solid #d0d0d0;
+  box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+/* Column Headers */
+.column-headers {
+  display: flex;
+  background-color: #c0c0c0;
+  color: #000;
+  font-weight: bold;
+  border-bottom: 2px solid #d0d0d0;
+  flex-shrink: 0;
+  overflow: hidden;
+}
+
+.corner-cell {
+  width: 50px;
+  height: 30px;
+  border-right: 2px solid #d0d0d0;
+  border-bottom: 2px solid #d0d0d0;
+  background-color: #c0c0c0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 12px;
+  color: #000;
+  flex-shrink: 0;
+}
+
+.column-header {
+  width: 100px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-right: 2px solid #d0d0d0;
+  font-size: 12px;
+  font-weight: bold;
+  color: #000;
+  background-color: #c0c0c0;
+  flex-shrink: 0;
+}
+
+/* Grid Container */
+.grid-container {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+}
+
+/* Row Headers */
+.row-headers {
+  width: 50px;
+  background-color: #c0c0c0;
+  color: #000;
+  font-weight: bold;
+  flex-shrink: 0;
+  overflow: hidden;
+}
+
+.row-header {
+  height: 25px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-bottom: 2px solid #d0d0d0;
+  font-size: 11px;
+  font-weight: bold;
+  color: #000;
+  background-color: #c0c0c0;
+  flex-shrink: 0;
+}
+
+/* Grid Cells */
+.grid-cells {
+  flex: 1;
+  overflow: hidden;
+}
+
+.grid-row {
+  display: flex;
+  height: 25px;
+}
+
+.grid-cell {
+  width: 100px;
+  height: 25px;
+  border-right: 2px solid #d0d0d0;
+  border-bottom: 2px solid #d0d0d0;
+  padding: 2px 4px;
+  font-size: 11px;
+  display: flex;
+  align-items: center;
+  background-color: #f0f0f0;
+  flex-shrink: 0;
+}
+
+.grid-cell:hover {
+  background-color: #e8e8e8;
+}
+
+/* Sheet Content */
+.sheet-content {
+  position: absolute;
+  top: 35px;
+  left: 50px;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+  z-index: 10;
+  overflow: auto;
+}
+
+/* Ensure sheet content containers don't scroll above header */
+.sheet-content>div {
+  height: auto;
+  min-height: 100%;
+  box-sizing: border-box;
+  padding-bottom: 20px;
+}
+
+/* Excel-style scrollbar styling */
+.sheet-content::-webkit-scrollbar {
+  width: 17px;
+  height: 17px;
+}
+
+.sheet-content::-webkit-scrollbar-track {
+  background: #f0f0f0;
+  border: 1px solid #d0d0d0;
+}
+
+.sheet-content::-webkit-scrollbar-thumb {
+  background: #c0c0c0;
+  border: 1px solid #808080;
+  border-radius: 0;
+}
+
+.sheet-content::-webkit-scrollbar-thumb:hover {
+  background: #a0a0a0;
+}
+
+.sheet-content::-webkit-scrollbar-corner {
+  background: #f0f0f0;
+  border: 1px solid #d0d0d0;
+}
+
+/* Firefox scrollbar styling */
+.sheet-content {
+  scrollbar-width: thin;
+  scrollbar-color: #c0c0c0 #f0f0f0;
+}
+
+.sheet-content>* {
+  pointer-events: auto;
+}
+
+/* Sheet Content Grid */
+.sheet-content-grid {
+  display: grid;
+  grid-template-columns: repeat(26, 100px);
+  grid-template-rows: repeat(50, 25px);
+  gap: 0;
+  padding: 10px;
+}
+
+.content-cell {
+  padding: 4px 8px;
+  font-size: 11px;
+  display: flex;
+  align-items: center;
+  background-color: transparent;
+  border: none;
+  outline: none;
+}
+
+.content-cell.header {
+  font-weight: bold;
+  background-color: #f0f0f0;
+  border-bottom: 2px solid #d0d0d0;
+}
+
+.content-cell.description {
+  max-width: 300px;
+  word-wrap: break-word;
+}
+
+/* Sheet Tabs */
+.sheet-tabs {
+  height: 40px;
+  background-color: #c0c0c0;
+  display: flex;
+  align-items: center;
+  padding: 0 10px;
+  border-top: 2px solid #d0d0d0;
+  flex-shrink: 0;
+  box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.tab-controls {
+  display: flex;
+  align-items: center;
+  margin-right: 10px;
+}
+
+.tab-arrow {
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #000;
+  cursor: pointer;
+  font-size: 10px;
+  background-color: #f0f0f0;
+  border: 2px solid #d0d0d0;
+  border-radius: 2px;
+  margin: 0 2px;
+}
+
+.tab-arrow:hover {
+  background-color: #e8e8e8;
+}
+
+.tab-separator {
+  width: 1px;
+  height: 20px;
+  background-color: #808080;
+  margin: 0 5px;
+}
+
+.tabs-container {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+}
+
+.sheet-tab {
+  min-width: 100px;
+  height: 30px;
+  background-color: #f0f0f0;
+  border: 2px solid #d0d0d0;
+  border-bottom: none;
+  border-radius: 4px 4px 0 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: bold;
+  color: #000;
+  cursor: pointer;
+  margin-right: 2px;
+  box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.sheet-tab:hover {
+  background-color: #e8e8e8;
+}
+
+.sheet-tab.active {
+  background-color: #ffffff;
+  border-bottom: 2px solid #ffffff;
+  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.add-sheet-btn {
+  width: 20px;
+  height: 20px;
+  background-color: #f0f0f0;
+  border: 2px solid #d0d0d0;
+  border-radius: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #000;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: bold;
+  margin-left: 10px;
+  box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.add-sheet-btn:hover {
+  background-color: #e8e8e8;
+}
+
+/* Pulsing animation for Clippy trigger */
+.clippy-trigger {
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+    box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+  }
+
+  50% {
+    transform: scale(1.1);
+    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
+  }
+
+  100% {
+    transform: scale(1);
+    box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+  }
+}
+
+/* Clippy Popup */
+.clippy-popup {
+  position: fixed;
+  bottom: 80px;
+  right: 40px;
+  z-index: 10000;
+  animation: slideIn 0.3s ease-out;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.clippy-container {
+  display: flex;
+  align-items: flex-start;
+  gap: 5px;
+}
+
+.clippy-character {
+  width: 180px;
+  height: 180px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.clippy-character img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.2));
+}
+
+.clippy-speech-bubble {
+  background: #ffffcc;
+  border: 2px solid #000;
+  border-radius: 8px;
+  padding: 10px 14px;
+  position: relative;
+  max-width: 200px;
+  box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.2);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.clippy-speech-bubble::before {
+  content: '';
+  position: absolute;
+  left: -8px;
+  top: 20px;
+  width: 0;
+  height: 0;
+  border-top: 8px solid transparent;
+  border-bottom: 8px solid transparent;
+  border-right: 8px solid #000;
+}
+
+.clippy-speech-bubble::after {
+  content: '';
+  position: absolute;
+  left: -6px;
+  top: 22px;
+  width: 0;
+  height: 0;
+  border-top: 6px solid transparent;
+  border-bottom: 6px solid transparent;
+  border-right: 6px solid #ffffcc;
+}
+
+.speech-bubble-content {
+  position: relative;
+}
+
+.speech-bubble-content p {
+  margin: 0 0 6px 0;
+  font-size: 11px;
+  line-height: 1.3;
+  color: #000;
+  font-weight: normal;
+}
+
+.speech-bubble-content p:last-child {
+  margin-bottom: 0;
+}
+
+.clippy-close {
+  position: absolute;
+  top: 4px;
+  right: 6px;
+  background: none;
+  border: none;
+  font-size: 14px;
+  font-weight: bold;
+  color: #666;
+  cursor: pointer;
+  padding: 0;
+  width: 16px;
+  height: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+}
+
+.clippy-close:hover {
+  color: #000;
+  background-color: rgba(0, 0, 0, 0.1);
+  border-radius: 2px;
+}
+
+/* Loading State */
+.loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  color: #666;
+  font-size: 14px;
+}
+
+/* Links */
+.content-cell a {
+  color: #0066cc;
+  text-decoration: none;
+}
+
+.content-cell a:hover {
+  text-decoration: underline;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .column-header {
+    width: 80px;
+  }
+
+  .grid-cell {
+    width: 80px;
+  }
+
+  .sheet-content-grid {
+    grid-template-columns: repeat(26, 80px);
+  }
+
+  .sheet-tab {
+    min-width: 80px;
+  }
+}
