@@ -181,7 +181,7 @@ const MaximumTenzChart = () => {
             gap: '20px'
         }}>
             {/* Chart Container */}
-            <div style={{
+            <div className="chart-container" style={{
                 width: '100%',
                 height: '288px',
                 backgroundColor: '#f0f0f0',
@@ -194,14 +194,14 @@ const MaximumTenzChart = () => {
             </div>
 
             {/* Excel-style Buttons */}
-            <div style={{
+            <div className="info-buttons" style={{
                 display: 'flex',
                 gap: '15px',
                 flexWrap: 'wrap',
                 justifyContent: 'center',
                 position: 'relative'
             }}>
-                <div style={{
+                <div className="info-button" style={{
                     backgroundColor: '#f0f0f0',
                     border: '2px solid #d0d0d0',
                     borderRadius: '4px',
@@ -216,7 +216,7 @@ const MaximumTenzChart = () => {
                 }}>
                     Product Manager
                 </div>
-                <div style={{
+                <div className="info-button" style={{
                     backgroundColor: '#f0f0f0',
                     border: '2px solid #d0d0d0',
                     borderRadius: '4px',
@@ -231,88 +231,97 @@ const MaximumTenzChart = () => {
                 }}>
                     Dallas, TX
                 </div>
-                <div
-                    ref={emailButtonRef}
-                    style={{
-                        backgroundColor: '#f0f0f0',
-                        border: '2px solid #d0d0d0',
-                        borderRadius: '4px',
-                        padding: '8px 16px',
-                        fontSize: '12px',
-                        fontWeight: 'bold',
-                        color: '#333',
-                        cursor: 'pointer',
-                        boxShadow: '1px 1px 2px rgba(0,0,0,0.1)',
-                        minWidth: '80px',
-                        textAlign: 'center',
-                        position: 'relative'
-                    }}
-                    onClick={copyEmailToClipboard}
-                >
-                    maxrautenkranz@gmail.com
-
-                    {/* Copy Notification - positioned relative to this button */}
-                    {showNotification && (
-                        <div style={{
-                            position: 'absolute',
-                            bottom: '100%',
-                            left: '50%',
-                            transform: 'translateX(-50%)',
-                            backgroundColor: 'rgba(255, 255, 255, 0.9)',
-                            border: '2px solid rgba(51, 51, 51, 0.8)',
-                            borderRadius: '8px',
-                            padding: '8px 12px',
+                <div className="contact-buttons" style={{
+                    display: 'flex',
+                    gap: '15px',
+                    flexWrap: 'wrap',
+                    justifyContent: 'center'
+                }}>
+                    <div
+                        ref={emailButtonRef}
+                        className="contact-button"
+                        style={{
+                            backgroundColor: '#f0f0f0',
+                            border: '2px solid #d0d0d0',
+                            borderRadius: '4px',
+                            padding: '8px 16px',
                             fontSize: '12px',
                             fontWeight: 'bold',
                             color: '#333',
-                            zIndex: 10000,
-                            whiteSpace: 'nowrap',
-                            boxShadow: '2px 2px 4px rgba(0,0,0,0.2)',
-                            marginBottom: '8px',
-                            backdropFilter: 'blur(2px)'
-                        }}>
-                            copied
-                            {/* Speech bubble tail */}
+                            cursor: 'pointer',
+                            boxShadow: '1px 1px 2px rgba(0,0,0,0.1)',
+                            minWidth: '80px',
+                            textAlign: 'center',
+                            position: 'relative'
+                        }}
+                        onClick={copyEmailToClipboard}
+                    >
+                        maxrautenkranz@gmail.com
+
+                        {/* Copy Notification - positioned relative to this button */}
+                        {showNotification && (
                             <div style={{
                                 position: 'absolute',
-                                bottom: '-8px',
+                                bottom: '100%',
                                 left: '50%',
                                 transform: 'translateX(-50%)',
-                                width: '0',
-                                height: '0',
-                                borderLeft: '6px solid transparent',
-                                borderRight: '6px solid transparent',
-                                borderTop: '8px solid rgba(51, 51, 51, 0.8)'
-                            }}></div>
-                        </div>
-                    )}
+                                backgroundColor: 'rgba(255, 255, 255, 0.9)',
+                                border: '2px solid rgba(51, 51, 51, 0.8)',
+                                borderRadius: '8px',
+                                padding: '8px 12px',
+                                fontSize: '12px',
+                                fontWeight: 'bold',
+                                color: '#333',
+                                zIndex: 10000,
+                                whiteSpace: 'nowrap',
+                                boxShadow: '2px 2px 4px rgba(0,0,0,0.2)',
+                                marginBottom: '8px',
+                                backdropFilter: 'blur(2px)'
+                            }}>
+                                copied
+                                {/* Speech bubble tail */}
+                                <div style={{
+                                    position: 'absolute',
+                                    bottom: '-8px',
+                                    left: '50%',
+                                    transform: 'translateX(-50%)',
+                                    width: '0',
+                                    height: '0',
+                                    borderLeft: '6px solid transparent',
+                                    borderRight: '6px solid transparent',
+                                    borderTop: '8px solid rgba(51, 51, 51, 0.8)'
+                                }}></div>
+                            </div>
+                        )}
+                    </div>
+                    <a
+                        href="https://www.linkedin.com/in/rautenkranz/"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="contact-button"
+                        style={{
+                            backgroundColor: '#f0f0f0',
+                            border: '2px solid #d0d0d0',
+                            borderRadius: '4px',
+                            padding: '6px 8px',
+                            fontSize: '12px',
+                            fontWeight: 'bold',
+                            color: '#333',
+                            cursor: 'pointer',
+                            boxShadow: '1px 1px 2px rgba(0,0,0,0.1)',
+                            minWidth: '40px',
+                            textAlign: 'center',
+                            textDecoration: 'none',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center'
+                        }}
+                    >
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="#0077B5">
+                            <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
+                        </svg>
+                    </a>
                 </div>
-                <a
-                    href="https://www.linkedin.com/in/rautenkranz/"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    style={{
-                        backgroundColor: '#f0f0f0',
-                        border: '2px solid #d0d0d0',
-                        borderRadius: '4px',
-                        padding: '6px 8px',
-                        fontSize: '12px',
-                        fontWeight: 'bold',
-                        color: '#333',
-                        cursor: 'pointer',
-                        boxShadow: '1px 1px 2px rgba(0,0,0,0.1)',
-                        minWidth: '40px',
-                        textAlign: 'center',
-                        textDecoration: 'none',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center'
-                    }}
-                >
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="#0077B5">
-                        <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
-                    </svg>
-                </a>
             </div>
 
             {/* Remove the old notification div */}

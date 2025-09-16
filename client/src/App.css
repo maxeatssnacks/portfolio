@@ -638,9 +638,17 @@ body {
   /* Bring the content area closer to headers on phones */
   .sheet-content {
     top: 0;
-    left: 0;
+    left: 40px;
+    /* Account for row headers */
     right: 0;
     bottom: 0;
+    padding: 5px;
+  }
+
+  /* Ensure all content within sheets has proper mobile spacing */
+  .sheet-content>div {
+    padding-left: 10px;
+    padding-right: 10px;
   }
 
   /* Slightly thinner scrollbar on phones */
@@ -675,6 +683,48 @@ body {
     top: 18px;
   }
 
+  /* Mobile-specific styling for MaximumTenzChart */
+  .max-tenz {
+    top: 15% !important;
+    left: 0 !important;
+    right: 0 !important;
+    padding: 0 15px !important;
+    gap: 15px !important;
+    position: relative !important;
+    transform: none !important;
+  }
+
+  .max-tenz .chart-container {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  .max-tenz .info-buttons {
+    flex-direction: column !important;
+    gap: 8px !important;
+    width: 100% !important;
+  }
+
+  .max-tenz .info-button {
+    width: 100% !important;
+    padding: 8px 12px !important;
+    font-size: 12px !important;
+    text-align: center !important;
+  }
+
+  .max-tenz .contact-buttons {
+    flex-direction: column !important;
+    gap: 8px !important;
+    width: 100% !important;
+  }
+
+  .max-tenz .contact-button {
+    width: 100% !important;
+    padding: 8px 12px !important;
+    font-size: 12px !important;
+    text-align: center !important;
+  }
+
   /* Keep grid visible on iPhone 12 Pro and similar sizes */
 
   /* Keep tabs visible as you scroll */
@@ -701,6 +751,8 @@ body {
 
   .mobile-card-view {
     display: block;
+    padding: 10px;
+    margin: 0;
   }
 }
 
